@@ -6,4 +6,16 @@
     <string name="enrollment_failed">Enrollment Failed</string>
     <string name="device_status">Device Status</string>
     <string name="last_sync">Last Sync</string>
+    
+    <!-- Main Activity Strings -->
+    <string name="mdm_client">MDM Client</string>
+    <string name="app_enable">App Enable</string>
+    <string name="sync_with_server">Sync with Server</string>
+    <string name="last_sync_time">Last Sync: %1$s</string>
+    <string name="sync">Sync</string>
+    <string name="change_server_and_port">Change Server and Port</string>
+    <string name="server">SERVER</string>
+    <string name="port">PORT</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="device_serial_number">Device Serial Number</string>
 </resources>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme -->
-    <style name="Theme.UnoShield" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.UnoShield" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorPrimary">@color/brand_blue</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+        <item name="colorAccent">@color/brand_blue</item>
+        <item name="android:statusBarColor">@color/brand_blue</item>
     </style>
 </resources>

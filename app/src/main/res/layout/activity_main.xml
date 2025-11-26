@@ -1,54 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background_grey" android:fillViewport="true" android:padding="16dp" android:paddingTop="32dp" tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/app_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UNO Shield MDM"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/device_id_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Device ID: Loading..."
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_title" />
+        <!-- Logo Section -->
+        <ImageView android:id="@+id/logo_image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="64dp" android:layout_marginBottom="4dp" android:contentDescription="@string/app_name" android:src="@drawable/uno_infotech_systems" android:adjustViewBounds="true" android:maxHeight="50dp" android:maxWidth="200dp" />
 
-    <TextView
-        android:id="@+id/device_status_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Status: Not Enrolled"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_id_text" />
+        <!-- MDM Client Title -->
+        <TextView android:id="@+id/mdm_client_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginBottom="32dp" android:text="@string/mdm_client" android:textColor="@color/brand_blue" android:textSize="16sp" android:textStyle="normal" />
 
-    <TextView
-        android:id="@+id/last_sync_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Last Sync: Never"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/device_status_text" />
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardBackgroundColor="@color/card_background" app:cardCornerRadius="12dp" app:cardElevation="2dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:rotation="0">
+
+                <!-- App Enable Card -->
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+
+                    <TextView android:id="@+id/app_enable_label" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/app_enable" android:textAllCaps="false" android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/app_enable_switch" android:layout_width="wrap_content" android:layout_height="wrap_content" app:thumbTint="@color/brand_blue" app:trackTint="@color/brand_blue" />
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <!-- Sync with Server Card -->
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="401dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sync_with_server_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/sync_with_server"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/last_sync_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="Last Sync: 4:15 PM Mon 12 2026"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sync_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:insetLeft="16dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="12dp"
+                        android:text="Sync"
+                        android:textAllCaps="false"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/brand_blue"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_popup_sync"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/white" />
+                </LinearLayout>
+
+
+
+                <!-- Change Server and Port Card -->
+
+                <!-- Divider -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <TextView android:id="@+id/change_server_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp" android:text="@string/change_server_and_port" android:textColor="@color/text_secondary" android:textSize="16sp" android:textStyle="bold" />
+
+                <!-- Server Input -->
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:hint="@string/server" app:boxStrokeColor="@color/brand_blue" app:hintTextColor="@color/brand_blue">
+
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/server_input" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="text" android:text="112.36.15.12" android:textColor="@color/text_primary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Port Input -->
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/port" app:boxStrokeColor="@color/brand_blue" app:hintTextColor="@color/brand_blue">
+
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/port_input" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" android:text="2222" android:textColor="@color/text_primary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!-- Divider -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <!-- Enable Notifications Card -->
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+
+                    <TextView android:id="@+id/enable_notifications_label" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/enable_notifications" android:textColor="@color/text_primary" android:textSize="20sp" android:textStyle="bold" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/enable_notifications_switch" android:layout_width="wrap_content" android:layout_height="wrap_content" app:thumbTint="@color/brand_blue" app:trackTint="@color/brand_blue" />
+                </LinearLayout>
+
+
+                <!-- Divider -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <!-- Device Serial Number Card -->
+
+                <TextView android:id="@+id/device_serial_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="@string/device_serial_number" android:textColor="@color/text_secondary" android:textSize="16sp" android:textStyle="bold" />
+
+                <TextView android:id="@+id/device_serial_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="52854565828852" android:textColor="@color/text_secondary" android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+</ScrollView>
