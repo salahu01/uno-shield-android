@@ -25,7 +25,7 @@
 
     <!-- Blue background with lines -->
     <color name="nothing_blue">#0A1929</color>
-    <color name="line_color">#2E4A7F</color>
-    <color name="line_color_bright">#3E5A9F</color>
-    <color name="line_color_light">#4E6ABF</color>
+    <color name="line_color">#FFFFFF</color>
+    <color name="line_color_bright">#FFFFFF</color>
+    <color name="line_color_light">#FFFFFF</color>
 </resources>
