@@ -13,10 +13,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.unoshield.mdm.R
+import com.unoshield.mdm.data.MDMDatabase
 import com.unoshield.mdm.util.LauncherHelper
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * Main Activity - Acts as the default launcher
@@ -29,10 +33,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appAdapter: AppAdapter
     private lateinit var emptyView: View
     private lateinit var gridLinesView: View
+    private lateinit var database: MDMDatabase
     
     companion object {
         // Special package name for UNO Manager app
         const val UNO_MANAGER_PACKAGE = "com.unoshield.mdm.UNO_MANAGER"
+        // Special package name for Server Manager app
+        const val SERVER_MANAGER_PACKAGE = "com.unoshield.mdm.SERVER_MANAGER"
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         
         // Check if this is being launched as a launcher (HOME intent)
         checkLauncherStatus()
+        
+        database = MDMDatabase.getDatabase(this)
         
         initializeViews()
         setupRecyclerView()
@@ -154,73 +163,114 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun loadInstalledApps() {
-        val packageManager = packageManager
-        val apps = mutableListOf<AppInfo>()
-        
-        // Add UNO Manager as the first app
-        val unoManagerIcon = ContextCompat.getDrawable(this, R.mipmap.ic_launcher)
-            ?: ContextCompat.getDrawable(this, android.R.drawable.sym_def_app_icon)
-        apps.add(
-            AppInfo(
-                packageName = UNO_MANAGER_PACKAGE,
-                name = getString(R.string.uno_manager),
-                icon = unoManagerIcon!!,
-                className = SettingsActivity::class.java.name,
-                isSpecialApp = true
-            )
-        )
-        
-        // Query for all apps that can be launched
-        val intent = Intent(Intent.ACTION_MAIN, null).apply {
-            addCategory(Intent.CATEGORY_LAUNCHER)
-        }
-        
-        val resolveInfoList: List<ResolveInfo> = packageManager.queryIntentActivities(
-            intent,
-            PackageManager.MATCH_ALL
-        )
-        
-        for (resolveInfo in resolveInfoList) {
-            val activityInfo = resolveInfo.activityInfo
-            val applicationInfo = activityInfo.applicationInfo
+        lifecycleScope.launch {
+            // Get blocked apps from database
+            val blockedPackageNames = database.blockedAppDao().getAllBlockedPackageNamesFlow().first().toSet()
             
-            // Skip our MainActivity (it's the launcher/home screen)
-            if (activityInfo.packageName == packageName && 
-                activityInfo.name == MainActivity::class.java.name) {
-                continue
-            }
+            val packageManager = packageManager
+            val apps = mutableListOf<AppInfo>()
             
-            // Skip SettingsActivity (it's shown as UNO Manager)
-            if (activityInfo.packageName == packageName && 
-                activityInfo.name == SettingsActivity::class.java.name) {
-                continue
-            }
-            
-            val appInfo = AppInfo(
-                packageName = activityInfo.packageName,
-                name = resolveInfo.loadLabel(packageManager).toString(),
-                icon = resolveInfo.loadIcon(packageManager),
-                className = activityInfo.name,
-                isSpecialApp = false
+            // Add UNO Manager as the first app
+            val unoManagerIcon = ContextCompat.getDrawable(this@MainActivity, R.mipmap.ic_launcher)
+                ?: ContextCompat.getDrawable(this@MainActivity, android.R.drawable.sym_def_app_icon)
+            apps.add(
+                AppInfo(
+                    packageName = UNO_MANAGER_PACKAGE,
+                    name = getString(R.string.uno_manager),
+                    icon = unoManagerIcon!!,
+                    className = SettingsActivity::class.java.name,
+                    isSpecialApp = true
+                )
             )
             
-            apps.add(appInfo)
+            // Add Server Manager as the second app
+            val serverManagerIcon = ContextCompat.getDrawable(this@MainActivity, android.R.drawable.ic_menu_manage)
+                ?: ContextCompat.getDrawable(this@MainActivity, android.R.drawable.sym_def_app_icon)
+            apps.add(
+                AppInfo(
+                    packageName = SERVER_MANAGER_PACKAGE,
+                    name = getString(R.string.server_manager),
+                    icon = serverManagerIcon!!,
+                    className = ServerActivity::class.java.name,
+                    isSpecialApp = true
+                )
+            )
+            
+            // Query for all apps that can be launched
+            val intent = Intent(Intent.ACTION_MAIN, null).apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }
+            
+            val resolveInfoList: List<ResolveInfo> = packageManager.queryIntentActivities(
+                intent,
+                PackageManager.MATCH_ALL
+            )
+            
+            for (resolveInfo in resolveInfoList) {
+                val activityInfo = resolveInfo.activityInfo
+                val applicationInfo = activityInfo.applicationInfo
+                
+                // Skip our MainActivity (it's the launcher/home screen)
+                if (activityInfo.packageName == packageName && 
+                    activityInfo.name == MainActivity::class.java.name) {
+                    continue
+                }
+                
+                // Skip SettingsActivity (it's shown as UNO Manager)
+                if (activityInfo.packageName == packageName && 
+                    activityInfo.name == SettingsActivity::class.java.name) {
+                    continue
+                }
+                
+                // Skip BlockAppsActivity (it's accessed from Server Manager)
+                if (activityInfo.packageName == packageName && 
+                    activityInfo.name == BlockAppsActivity::class.java.name) {
+                    continue
+                }
+                
+                // Skip ServerActivity when it's not shown as a special app (it's shown as Server Manager)
+                if (activityInfo.packageName == packageName && 
+                    activityInfo.name == ServerActivity::class.java.name) {
+                    continue
+                }
+                
+                // Filter out blocked apps
+                if (blockedPackageNames.contains(activityInfo.packageName)) {
+                    continue
+                }
+                
+                val appInfo = AppInfo(
+                    packageName = activityInfo.packageName,
+                    name = resolveInfo.loadLabel(packageManager).toString(),
+                    icon = resolveInfo.loadIcon(packageManager),
+                    className = activityInfo.name,
+                    isSpecialApp = false
+                )
+                
+                apps.add(appInfo)
+            }
+            
+            // Sort apps alphabetically by name (UNO Manager will be first)
+            apps.sortBy { if (it.isSpecialApp) "" else it.name.lowercase() }
+            
+            // Update adapter
+            appAdapter.submitList(apps)
+            
+            // Show/hide empty view
+            if (apps.isEmpty()) {
+                recyclerView.visibility = View.GONE
+                emptyView.visibility = View.VISIBLE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                emptyView.visibility = View.GONE
+            }
         }
-        
-        // Sort apps alphabetically by name (UNO Manager will be first)
-        apps.sortBy { if (it.isSpecialApp) "" else it.name.lowercase() }
-        
-        // Update adapter
-        appAdapter.submitList(apps)
-        
-        // Show/hide empty view
-        if (apps.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            emptyView.visibility = View.VISIBLE
-        } else {
-            recyclerView.visibility = View.VISIBLE
-            emptyView.visibility = View.GONE
-        }
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Reload apps when returning to launcher to reflect any changes in blocked apps
+        loadInstalledApps()
     }
     
     private fun launchApp(appInfo: AppInfo) {
@@ -228,6 +278,15 @@ class MainActivity : AppCompatActivity() {
             // Handle special UNO Manager app
             if (appInfo.isSpecialApp && appInfo.packageName == UNO_MANAGER_PACKAGE) {
                 val intent = Intent(this, SettingsActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(intent)
+                return
+            }
+            
+            // Handle special Server Manager app
+            if (appInfo.isSpecialApp && appInfo.packageName == SERVER_MANAGER_PACKAGE) {
+                val intent = Intent(this, ServerActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
                 startActivity(intent)

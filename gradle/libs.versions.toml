@@ -19,6 +19,7 @@ gson = "2.10.1"
 zxing = "4.3.0"
 coroutines = "1.7.3"
 enterprise = "1.0.0-alpha02"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,9 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 zxing = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxing" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 enterprise = { group = "androidx.enterprise", name = "enterprise-feedback", version.ref = "enterprise" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

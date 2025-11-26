@@ -86,6 +86,12 @@
 
                 <TextView android:id="@+id/device_serial_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="52854565828852" android:textColor="@color/text_secondary" android:textSize="14sp" />
 
+                <!-- Divider -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <!-- Server Manager Button -->
+                <com.google.android.material.button.MaterialButton android:id="@+id/server_manager_button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/server_manager" android:textAllCaps="false" android:textSize="16sp" android:textStyle="bold" app:backgroundTint="@color/brand_blue" app:cornerRadius="12dp" app:icon="@android:drawable/ic_menu_manage" app:iconGravity="textStart" app:iconTint="@color/white" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

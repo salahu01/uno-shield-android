@@ -23,4 +23,10 @@
     <string name="no_apps_found">No apps found</string>
     <string name="app_icon">App icon</string>
     <string name="uno_manager">UNO Manager</string>
+    
+    <!-- Server Activity Strings -->
+    <string name="server_manager">Server Manager</string>
+    <string name="block_apps">Block Apps</string>
+    <string name="block_apps_description">Manage which apps are blocked from the launcher</string>
+    <string name="block">Block</string>
 </resources>

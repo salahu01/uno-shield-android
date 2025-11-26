@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -105,6 +106,11 @@ dependencies {
     
     // Coroutines
     implementation(libs.coroutines)
+    
+    // Room Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
     
     // Compose (for future use, keeping for compatibility)
     implementation(libs.androidx.lifecycle.runtime.ktx)

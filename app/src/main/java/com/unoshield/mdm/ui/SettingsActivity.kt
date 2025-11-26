@@ -3,6 +3,7 @@ package com.unoshield.mdm.ui
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
@@ -30,6 +31,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var serverInput: TextInputEditText
     private lateinit var portInput: TextInputEditText
     private lateinit var deviceSerialText: TextView
+    private lateinit var serverManagerButton: MaterialButton
     
     private lateinit var sharedPreferences: SharedPreferences
     
@@ -62,6 +64,7 @@ class SettingsActivity : AppCompatActivity() {
         serverInput = findViewById(R.id.server_input)
         portInput = findViewById(R.id.port_input)
         deviceSerialText = findViewById(R.id.device_serial_text)
+        serverManagerButton = findViewById(R.id.server_manager_button)
     }
     
     private fun loadSavedPreferences() {
@@ -128,6 +131,12 @@ class SettingsActivity : AppCompatActivity() {
                     .putString(KEY_PORT, port)
                     .apply()
             }
+        }
+        
+        // Server Manager Button
+        serverManagerButton.setOnClickListener {
+            val intent = Intent(this, ServerActivity::class.java)
+            startActivity(intent)
         }
     }
     
