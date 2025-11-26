@@ -246,9 +246,8 @@ class MainActivity : AppCompatActivity() {
     }
     
     override fun onBackPressed() {
-        // Prevent back button from exiting launcher
-        // Move launcher to back instead
-        moveTaskToBack(true)
+        // Back button functionality disabled in launcher UI
+        // Do nothing - prevent any back button action
     }
 }
 
