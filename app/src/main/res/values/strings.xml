@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">UNO Shield MDM</string>
+    <string name="enrollment_title">Device Enrollment</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="device_enrolled">Device Enrolled Successfully</string>
+    <string name="enrollment_failed">Enrollment Failed</string>
+    <string name="device_status">Device Status</string>
+    <string name="last_sync">Last Sync</string>
+</resources>

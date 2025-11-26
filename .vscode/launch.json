@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "kotlin",
+            "request": "launch",
+            "name": "Debug Android App",
+            "projectRoot": "${workspaceFolder}",
+            "mainClass": "com.unoshield.mdm.ui.MainActivity",
+            "preLaunchTask": "buildAndInstallDebug"
+        },
+        {
+            "type": "kotlin",
+            "request": "attach",
+            "name": "Attach to Android Process",
+            "projectRoot": "${workspaceFolder}",
+            "processId": "${command:PickProcess}"
+        },
+        {
+            "name": "Build Debug APK",
+            "type": "kotlin",
+            "request": "launch",
+            "preLaunchTask": "assembleDebug"
+        },
+        {
+            "name": "Install Debug APK",
+            "type": "kotlin",
+            "request": "launch",
+            "preLaunchTask": "installDebug"
+        },
+        {
+            "name": "Run Android Tests",
+            "type": "kotlin",
+            "request": "launch",
+            "preLaunchTask": "connectedAndroidTest"
+        },
+        {
+            "name": "View Logcat",
+            "type": "kotlin",
+            "request": "launch",
+            "preLaunchTask": "logcat"
+        }
+    ]
+}

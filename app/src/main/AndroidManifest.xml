@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- This permission is dangerous and causes blocking by Play Protect in some countries.
+     In fact, this permission is currently never used by Headwind MDM.
+ -->
+    <!--    <uses-permission android:name="android.permission.READ_SMS"/>-->
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.INJECT_EVENTS" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false" android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:required="false" android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" android:required="false"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_WIFI"/>
+    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_BT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.REQUEST_PASSWORD_COMPLEXITY" />
+    <uses-permission android:name="android.permission.MASTER_CLEAR" tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions"/>
+
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_AIRPLANE_MODE" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_APPS_CONTROL" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_AUDIO_OUTPUT" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_BLUETOOTH" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_CALLS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_CERTIFICATES" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_DEBUGGING_FEATURES" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_DISPLAY" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_FACTORY_RESET" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_FUN" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_INSTALL_UNKNOWN_SOURCES" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_LOCALE" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_LOCATION" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_LOCK_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_MICROPHONE" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_MOBILE_NETWORK" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_MODIFY_USERS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_NEARBY_COMMUNICATION" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_OVERRIDE_APN" />
+    <!-- for com.hmdm.apn plugin -->
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_PHYSICAL_MEDIA" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_PRINTING" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_RESET_PASSWORD" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_RESTRICT_PRIVATE_DNS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_SAFE_BOOT" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_SCREEN_CONTENT" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_SMS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_SYSTEM_UPDATES" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_SYSTEM_DIALOGS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_TIME" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_USB_FILE_TRANSFER" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_VPN" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_WALLPAPER" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_WIFI" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_WINDOWS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_WIPE_DATA" />
+
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+
+
+    <application android:allowBackup="true" android:dataExtractionRules="@xml/data_extraction_rules" android:fullBackupContent="@xml/backup_rules" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/Theme.UnoShield" tools:targetApi="31">
+
+        <!-- Main Activity -->
+        <activity android:name=".ui.MainActivity" android:exported="true" android:label="@string/app_name" android:theme="@style/Theme.UnoShield">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Enrollment Activity -->
+        <activity android:name=".ui.EnrollmentActivity" android:exported="false" android:label="@string/enrollment_title" android:theme="@style/Theme.UnoShield" />
+
+        <!-- Get Provisioning Mode Activity - CRITICAL for QR code enrollment -->
+        <activity android:name=".provision.GetProvisioningModeActivity" android:exported="true" android:permission="android.permission.BIND_DEVICE_ADMIN" android:theme="@style/Theme.UnoShield">
+            <intent-filter>
+                <action android:name="android.app.action.GET_PROVISIONING_MODE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Provisioning Success Activity -->
+        <activity android:name=".provision.ProvisioningSuccessActivity" android:exported="true" android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.app.action.PROVISIONING_SUCCESSFUL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Role Holder Activity for Android 10+ -->
+        <activity android:name="android.app.Activity" android:exported="true" android:permission="android.permission.LAUNCH_DEVICE_MANAGER_SETUP">
+            <intent-filter>
+                <action android:name="android.app.action.ROLE_HOLDER_PROVISION_MANAGED_DEVICE_FROM_TRUSTED_SOURCE" />
+                <action android:name="android.app.action.ROLE_HOLDER_PROVISION_MANAGED_PROFILE" />
+                <action android:name="android.app.action.ROLE_HOLDER_PROVISION_FINALIZATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Device Admin Receiver -->
+        <receiver android:name=".AdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN" android:exported="true">
+            <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.app.action.PROFILE_OWNER_CHANGED"/>
+                <action android:name="android.app.action.DEVICE_OWNER_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Device Owner Receiver -->
+        <receiver android:name=".DeviceOwnerReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN" android:exported="true">
+            <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+        </receiver>
+
+    </application>
+
+</manifest>
