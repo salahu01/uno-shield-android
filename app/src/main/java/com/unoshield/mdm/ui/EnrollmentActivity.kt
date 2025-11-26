@@ -3,6 +3,7 @@ package com.unoshield.mdm.ui
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.unoshield.mdm.R
 import com.unoshield.mdm.api.ApiClient
 import com.unoshield.mdm.api.DeviceRegistrationRequest
 import com.unoshield.mdm.util.DeviceInfo
+import com.unoshield.mdm.util.LauncherHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -147,9 +149,21 @@ class EnrollmentActivity : AppCompatActivity() {
                         Toast.makeText(this@EnrollmentActivity, "Device enrolled successfully", Toast.LENGTH_LONG).show()
                         Log.d(TAG, "Device registration successful: ${response.body()?.device_id}")
                         
-                        // Navigate to main activity after a delay
+                        // Try to set this app as default launcher (requires device owner permission)
+                        try {
+                            val launcherSet = LauncherHelper.setAsDefaultLauncher(this@EnrollmentActivity)
+                            if (launcherSet) {
+                                Log.d(TAG, "Successfully set app as default launcher")
+                            } else {
+                                Log.d(TAG, "Could not set default launcher automatically. User can set it manually.")
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error setting default launcher", e)
+                        }
+                        
+                        // Navigate to main activity (launcher) after a delay
                         android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                            val intent = android.content.Intent(this@EnrollmentActivity, MainActivity::class.java)
+                            val intent = Intent(this@EnrollmentActivity, MainActivity::class.java)
                             intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()

@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
     
     // Device Policy Manager
     implementation(libs.enterprise)

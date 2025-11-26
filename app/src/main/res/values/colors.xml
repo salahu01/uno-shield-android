@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+
     <!-- Brand Colors -->
     <color name="brand_blue">#1961A9</color>
     <color name="brand_dark">#172930</color>
@@ -15,4 +15,17 @@
     <color name="card_background">#FFFFFF</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
+
+    <!-- Nothing OS Colors -->
+    <color name="nothing_black">#000000</color>
+    <color name="nothing_white">#FFFFFF</color>
+    <color name="nothing_red">#FF0000</color>
+    <color name="nothing_grey">#808080</color>
+    <color name="nothing_dark_grey">#1A1A1A</color>
+
+    <!-- Blue background with lines -->
+    <color name="nothing_blue">#0A1929</color>
+    <color name="line_color">#2E4A7F</color>
+    <color name="line_color_bright">#3E5A9F</color>
+    <color name="line_color_light">#4E6ABF</color>
 </resources>

@@ -89,13 +89,23 @@
 
     <application android:allowBackup="true" android:dataExtractionRules="@xml/data_extraction_rules" android:fullBackupContent="@xml/backup_rules" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/Theme.UnoShield" tools:targetApi="31">
 
-        <!-- Main Activity -->
-        <activity android:name=".ui.MainActivity" android:exported="true" android:label="@string/app_name" android:theme="@style/Theme.UnoShield">
+        <!-- Main Activity - Default activity and home screen launcher -->
+        <activity android:name=".ui.MainActivity" android:exported="true" android:label="@string/app_name" android:theme="@style/Theme.UnoShield" android:launchMode="singleTask" android:clearTaskOnLaunch="true" android:stateNotNeeded="true">
+            <!-- Home screen launcher - This makes the app a launcher -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- Default launcher activity (appears in app drawer) -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Settings Activity - MDM settings screen (accessed via UNO Manager in launcher) -->
+        <activity android:name=".ui.SettingsActivity" android:exported="false" android:label="@string/uno_manager" android:theme="@style/Theme.UnoShield" />
 
         <!-- Enrollment Activity -->
         <activity android:name=".ui.EnrollmentActivity" android:exported="false" android:label="@string/enrollment_title" android:theme="@style/Theme.UnoShield" />
