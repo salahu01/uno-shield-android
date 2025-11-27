@@ -139,8 +139,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Role Holder Activity for Android 10+ -->
-        <activity android:name="android.app.Activity" android:exported="true" android:permission="android.permission.LAUNCH_DEVICE_MANAGER_SETUP">
+        <!-- Role Holder Activity for Android 10+ (Required for Android 15) -->
+        <!-- Android 15 requires this to be a proper Activity class, not android.app.Activity -->
+        <activity android:name=".provision.RoleHolderActivity" android:exported="true" android:permission="android.permission.LAUNCH_DEVICE_MANAGER_SETUP" android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.app.action.ROLE_HOLDER_PROVISION_MANAGED_DEVICE_FROM_TRUSTED_SOURCE" />
                 <action android:name="android.app.action.ROLE_HOLDER_PROVISION_MANAGED_PROFILE" />

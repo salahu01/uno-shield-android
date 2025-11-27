@@ -18,6 +18,9 @@ class ProvisioningSuccessActivity : Activity() {
         super.onCreate(icicle)
 
         Log.d(TAG, "ProvisioningSuccessActivity started")
+        Log.d(TAG, "Android version: ${android.os.Build.VERSION.SDK_INT}")
+        Log.d(TAG, "Intent action: ${intent.action}")
+        Log.d(TAG, "Intent extras keys: ${intent.extras?.keySet()}")
 
         try {
             // Extract enrollment data from provisioning extras
@@ -25,6 +28,8 @@ class ProvisioningSuccessActivity : Activity() {
 
             if (extras == null) {
                 Log.e(TAG, "No provisioning extras bundle found!")
+                Log.e(TAG, "This may cause 'something went wrong' error on Android 15")
+                // Android 15 requires proper error handling - don't crash
                 finish()
                 return
             }
@@ -41,6 +46,8 @@ class ProvisioningSuccessActivity : Activity() {
             // Validate we have required data
             if (enrollmentId.isNullOrBlank() || enrollmentCode.isNullOrBlank()) {
                 Log.e(TAG, "Missing required enrollment data! ID: $enrollmentId, Code: $enrollmentCode")
+                Log.e(TAG, "Android 15 requires all enrollment data to be present")
+                // Android 15 will show error if data is missing
                 finish()
                 return
             }
@@ -57,9 +64,16 @@ class ProvisioningSuccessActivity : Activity() {
             startActivity(enrollmentIntent)
         } catch (e: Exception) {
             Log.e(TAG, "Error processing provisioning success", e)
+            // Android 15 requires proper error handling
+            // Don't let exceptions crash the provisioning flow
+        } finally {
+            finish()
         }
-
-        finish()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "ProvisioningSuccessActivity destroyed")
     }
 }
 
