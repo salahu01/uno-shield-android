@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.unoshield.mdm.AdminReceiver
 import com.unoshield.mdm.DeviceOwnerReceiver
 import com.unoshield.mdm.R
 
@@ -41,17 +42,49 @@ class RestrictionPolicyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_restriction_policy)
         
         devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        adminComponent = DeviceOwnerReceiver.getComponentName(this)
         
         // Check if app is device owner (required for user restrictions)
+        // This checks at the package level, not component level
         isDeviceOwner = devicePolicyManager.isDeviceOwnerApp(packageName)
         
+        // Use DeviceOwnerReceiver component (this should be set as Device Owner during provisioning)
+        adminComponent = DeviceOwnerReceiver.getComponentName(this)
+        
+        // Fallback: If DeviceOwnerReceiver is not active, check AdminReceiver (for backward compatibility)
         if (!isDeviceOwner) {
-            Toast.makeText(
-                this,
-                "Device Owner privileges required. Please set as device owner via ADB.",
-                Toast.LENGTH_LONG
-            ).show()
+            val deviceOwnerAdmin = devicePolicyManager.isAdminActive(adminComponent)
+            val adminReceiverComponent = AdminReceiver.getComponentName(this)
+            val adminReceiverActive = devicePolicyManager.isAdminActive(adminReceiverComponent)
+            
+            // If AdminReceiver is active but DeviceOwnerReceiver is not, log a warning
+            if (adminReceiverActive && !deviceOwnerAdmin) {
+                android.util.Log.w("RestrictionPolicy", 
+                    "AdminReceiver is active but DeviceOwnerReceiver is not. " +
+                    "This may indicate a provisioning issue. Device Owner status: $isDeviceOwner")
+            }
+        }
+        
+        if (!isDeviceOwner) {
+            val isDeviceAdmin = devicePolicyManager.isAdminActive(adminComponent) || 
+                               devicePolicyManager.isAdminActive(AdminReceiver.getComponentName(this))
+            
+            val message = if (isDeviceAdmin) {
+                "Device Admin is active, but Device Owner is required for these policies.\n\n" +
+                "The device was enrolled but not as Device Owner.\n\n" +
+                "To enable Device Owner:\n" +
+                "1. Factory reset device\n" +
+                "2. Scan QR code during initial setup (before completing setup wizard)\n" +
+                "OR\n" +
+                "3. Use ADB (if no user accounts exist):\n" +
+                "   adb shell dpm set-device-owner com.unoshield.mdm/.DeviceOwnerReceiver\n\n" +
+                "Note: QR code enrollment should automatically set Device Owner if done during factory reset."
+            } else {
+                "Device Owner privileges required.\n\n" +
+                "The device was not enrolled as Device Owner.\n" +
+                "Please factory reset and enroll during setup, or use ADB."
+            }
+            
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
         
         setupToolbar()
@@ -506,11 +539,21 @@ class RestrictionPolicyActivity : AppCompatActivity() {
     private fun handlePolicyChange(policy: PolicyItem, enabled: Boolean) {
         // Verify device owner status before applying restrictions
         if (!isDeviceOwner) {
-            Toast.makeText(
-                this,
-                "Device Owner privileges required. Run: adb shell dpm set-device-owner com.unoshield.mdm/.DeviceOwnerReceiver",
-                Toast.LENGTH_LONG
-            ).show()
+            val isDeviceAdmin = devicePolicyManager.isAdminActive(adminComponent)
+            
+            val message = if (isDeviceAdmin) {
+                "Device Admin is active, but Device Owner is required for this policy.\n\n" +
+                "Device Owner can only be set:\n" +
+                "• During factory reset (scan QR code during setup)\n" +
+                "• Via ADB (if no user accounts exist)\n\n" +
+                "Current enrollment method doesn't support Device Owner."
+            } else {
+                "Device Owner privileges required.\n\n" +
+                "The device was not properly enrolled as Device Owner.\n" +
+                "Please factory reset and enroll during setup."
+            }
+            
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
             // Reset the switch to previous state
             adapter.notifyDataSetChanged()
             return

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background_grey" android:fillViewport="true" android:padding="16dp" android:paddingTop="32dp" tools:context=".ui.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/background_grey" android:fillViewport="true" android:padding="16dp" android:paddingTop="32dp" tools:context=".ui.SettingsActivity">
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
 
@@ -9,7 +9,10 @@
         <ImageView android:id="@+id/logo_image" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="64dp" android:layout_marginBottom="4dp" android:contentDescription="@string/app_name" android:src="@drawable/uno_infotech_systems" android:adjustViewBounds="true" android:maxHeight="50dp" android:maxWidth="200dp" />
 
         <!-- MDM Client Title -->
-        <TextView android:id="@+id/mdm_client_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginBottom="32dp" android:text="@string/mdm_client" android:textColor="@color/brand_blue" android:textSize="16sp" android:textStyle="normal" />
+        <TextView android:id="@+id/mdm_client_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginBottom="8dp" android:text="@string/mdm_client" android:textColor="@color/brand_blue" android:textSize="16sp" android:textStyle="normal" />
+
+        <!-- Device Owner Status Indicator -->
+        <TextView android:id="@+id/device_owner_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginBottom="32dp" android:text="Checking status..." android:textColor="@color/text_secondary" android:textSize="14sp" android:textStyle="normal" android:gravity="center" />
 
         <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" app:cardBackgroundColor="@color/card_background" app:cardCornerRadius="12dp" app:cardElevation="2dp">
 
@@ -88,6 +91,13 @@
 
                 <!-- Divider -->
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#B1B1B1" />
+
+                <!-- Debug Info Section (only visible in debug builds) -->
+                <TextView android:id="@+id/debug_section_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="Debug Info" android:textColor="@color/text_secondary" android:textSize="14sp" android:textStyle="bold" android:visibility="gone" />
+
+                <TextView android:id="@+id/debug_adb_command" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:fontFamily="monospace" android:text="adb shell dpm set-device-owner com.unoshield.mdm/.DeviceOwnerReceiver" android:textColor="@color/text_secondary" android:textSize="12sp" android:visibility="gone" />
+
+                <TextView android:id="@+id/debug_status_info" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" android:text="" android:textColor="@color/text_secondary" android:textSize="12sp" android:visibility="gone" />
 
                 <!-- Server Manager Button -->
                 <com.google.android.material.button.MaterialButton android:id="@+id/server_manager_button" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/server_manager" android:textAllCaps="false" android:textSize="16sp" android:textStyle="bold" app:backgroundTint="@color/brand_blue" app:cornerRadius="12dp" app:icon="@android:drawable/ic_menu_manage" app:iconGravity="textStart" app:iconTint="@color/white" />

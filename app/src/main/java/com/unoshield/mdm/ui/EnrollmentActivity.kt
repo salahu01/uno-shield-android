@@ -12,12 +12,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.unoshield.mdm.AdminReceiver
+import com.unoshield.mdm.DeviceOwnerReceiver
 import com.unoshield.mdm.R
 import com.unoshield.mdm.api.ApiClient
 import com.unoshield.mdm.api.DeviceRegistrationRequest
 import com.unoshield.mdm.util.DeviceInfo
-import com.unoshield.mdm.util.LauncherHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -144,30 +143,56 @@ class EnrollmentActivity : AppCompatActivity() {
                 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        val successMsg = "Device registered successfully!\nDevice ID: ${response.body()?.device_id}"
-                        statusText.text = successMsg
-                        Toast.makeText(this@EnrollmentActivity, "Device enrolled successfully", Toast.LENGTH_LONG).show()
-                        Log.d(TAG, "Device registration successful: ${response.body()?.device_id}")
+                        // Check Device Owner status after successful registration
+                        val devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+                        val isDeviceOwner = devicePolicyManager.isDeviceOwnerApp(packageName)
+                        val adminComponent = DeviceOwnerReceiver.getComponentName(this@EnrollmentActivity)
+                        val isDeviceAdmin = devicePolicyManager.isAdminActive(adminComponent)
                         
-                        // Try to set this app as default launcher (requires device owner permission)
-                        try {
-                            val launcherSet = LauncherHelper.setAsDefaultLauncher(this@EnrollmentActivity)
-                            if (launcherSet) {
-                                Log.d(TAG, "Successfully set app as default launcher")
+                        Log.d(TAG, "Device registration successful: ${response.body()?.device_id}")
+                        Log.d(TAG, "Device Owner status: $isDeviceOwner")
+                        Log.d(TAG, "Device Admin status: $isDeviceAdmin")
+                        
+                        val successMsg = buildString {
+                            append("Device registered successfully!\n")
+                            append("Device ID: ${response.body()?.device_id}\n\n")
+                            
+                            if (isDeviceOwner) {
+                                append("✓ Device Owner: Active\n")
+                                append("All MDM policies are available.")
+                            } else if (isDeviceAdmin) {
+                                append("⚠ Device Admin: Active\n")
+                                append("Device Owner: Not Set\n\n")
+                                append("IMPORTANT: Some policies require Device Owner privileges.\n\n")
+                                append("To enable Device Owner:\n")
+                                append("1. Factory reset device\n")
+                                append("2. Scan QR code during setup\n")
+                                append("OR\n")
+                                append("3. Use ADB (if no accounts):\n")
+                                append("   adb shell dpm set-device-owner\n")
+                                append("   com.unoshield.mdm/.DeviceOwnerReceiver")
                             } else {
-                                Log.d(TAG, "Could not set default launcher automatically. User can set it manually.")
+                                append("⚠ Warning: Device Admin not active\n")
+                                append("MDM policies will not work.\n\n")
+                                append("Please ensure device is properly enrolled.")
                             }
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error setting default launcher", e)
                         }
                         
-                        // Navigate to main activity (launcher) after a delay
+                        statusText.text = successMsg
+                        
+                        if (isDeviceOwner) {
+                            Toast.makeText(this@EnrollmentActivity, "Device enrolled successfully with Device Owner privileges", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this@EnrollmentActivity, "Device enrolled but Device Owner not set. Some policies may not work.", Toast.LENGTH_LONG).show()
+                        }
+                        
+                        // Navigate to settings activity (manager) after a delay
                         android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                            val intent = Intent(this@EnrollmentActivity, MainActivity::class.java)
+                            val intent = Intent(this@EnrollmentActivity, SettingsActivity::class.java)
                             intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
-                        }, 2000)
+                        }, if (isDeviceOwner) 2000 else 5000) // Give more time to read warning if not Device Owner
                     } else {
                         val errorBody = response.errorBody()?.string() ?: "Unknown error"
                         val errorMsg = when (response.code()) {

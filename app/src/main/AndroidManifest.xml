@@ -91,23 +91,13 @@
 
     <application android:allowBackup="true" android:dataExtractionRules="@xml/data_extraction_rules" android:fullBackupContent="@xml/backup_rules" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/Theme.UnoShield" tools:targetApi="31">
 
-        <!-- Main Activity - Default activity and home screen launcher -->
-        <activity android:name=".ui.MainActivity" android:exported="true" android:label="@string/app_name" android:theme="@style/Theme.UnoShield" android:launchMode="singleTask" android:clearTaskOnLaunch="true" android:stateNotNeeded="true">
-            <!-- Home screen launcher - This makes the app a launcher -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <!-- Default launcher activity (appears in app drawer) -->
+        <!-- Settings Activity - Main activity (MDM Manager) -->
+        <activity android:name=".ui.SettingsActivity" android:exported="true" android:label="@string/app_name" android:theme="@style/Theme.UnoShield">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Settings Activity - MDM settings screen (accessed via UNO Manager in launcher) -->
-        <activity android:name=".ui.SettingsActivity" android:exported="false" android:label="@string/uno_manager" android:theme="@style/Theme.UnoShield" />
 
         <!-- Server Activity - Mock server interface for managing MDM policies -->
         <activity android:name=".ui.ServerActivity" android:exported="false" android:label="@string/server_manager" android:theme="@style/Theme.UnoShield" />
@@ -172,8 +162,17 @@
         </receiver>
 
         <!-- Device Owner Receiver -->
+        <!-- CRITICAL: This receiver MUST handle provisioning events to be set as Device Owner during QR code enrollment -->
         <receiver android:name=".DeviceOwnerReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN" android:exported="true">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE"/>
+                <action android:name="android.app.action.PROVISIONING_COMPLETE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.app.action.PROFILE_OWNER_CHANGED"/>
+                <action android:name="android.app.action.DEVICE_OWNER_CHANGED"/>
+            </intent-filter>
         </receiver>
 
         <!-- Phone Call Receiver - Intercepts incoming calls for filtering -->

@@ -9,18 +9,18 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
-import com.unoshield.mdm.AdminReceiver
+import com.unoshield.mdm.DeviceOwnerReceiver
 import com.unoshield.mdm.R
 import com.unoshield.mdm.util.DeviceInfo
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Settings Activity - Shows device status and MDM client controls
- * Accessed via "UNO Manager" app in the launcher
+ * Settings Activity - Main activity showing device status and MDM client controls
  */
 class SettingsActivity : AppCompatActivity() {
     
@@ -32,6 +32,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var portInput: TextInputEditText
     private lateinit var deviceSerialText: TextView
     private lateinit var serverManagerButton: MaterialButton
+    private lateinit var deviceOwnerStatusText: TextView
+    private lateinit var debugSectionTitle: TextView
+    private lateinit var debugAdbCommand: TextView
+    private lateinit var debugStatusInfo: TextView
     
     private lateinit var sharedPreferences: SharedPreferences
     
@@ -65,6 +69,10 @@ class SettingsActivity : AppCompatActivity() {
         portInput = findViewById(R.id.port_input)
         deviceSerialText = findViewById(R.id.device_serial_text)
         serverManagerButton = findViewById(R.id.server_manager_button)
+        deviceOwnerStatusText = findViewById(R.id.device_owner_status)
+        debugSectionTitle = findViewById(R.id.debug_section_title)
+        debugAdbCommand = findViewById(R.id.debug_adb_command)
+        debugStatusInfo = findViewById(R.id.debug_status_info)
     }
     
     private fun loadSavedPreferences() {
@@ -170,17 +178,59 @@ class SettingsActivity : AppCompatActivity() {
         val serialNumber = DeviceInfo.getSerialNumber()
         deviceSerialText.text = serialNumber
         
-        // Check device admin status (for future use)
+        // Check device admin and device owner status
         val devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        val adminComponent = AdminReceiver.getComponentName(this)
+        val adminComponent = DeviceOwnerReceiver.getComponentName(this)
         
         val isDeviceOwner = devicePolicyManager.isDeviceOwnerApp(packageName)
         val isDeviceAdmin = devicePolicyManager.isAdminActive(adminComponent)
         
-        // You can use these statuses to enable/disable features
-        // For now, we'll just log them
-        if (isDeviceOwner || isDeviceAdmin) {
-            // Device is enrolled, can enable MDM features
+        // Update Device Owner status indicator
+        val statusText = if (isDeviceOwner) {
+            "✓ Device Owner: Active - All policies available"
+        } else if (isDeviceAdmin) {
+            "⚠ Device Admin: Active - Device Owner required for some policies"
+        } else {
+            "✗ Not Enrolled - Device Admin/Owner not active"
+        }
+        
+        val statusColor = if (isDeviceOwner) {
+            ContextCompat.getColor(this, android.R.color.holo_green_dark)
+        } else if (isDeviceAdmin) {
+            ContextCompat.getColor(this, android.R.color.holo_orange_dark)
+        } else {
+            ContextCompat.getColor(this, android.R.color.holo_red_dark)
+        }
+        
+        deviceOwnerStatusText.text = statusText
+        deviceOwnerStatusText.setTextColor(statusColor)
+        
+        // Show debug info in debug builds (check using ApplicationInfo flags)
+        val isDebugBuild = (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
+        if (isDebugBuild) {
+            debugSectionTitle.visibility = android.view.View.VISIBLE
+            debugAdbCommand.visibility = android.view.View.VISIBLE
+            debugStatusInfo.visibility = android.view.View.VISIBLE
+            
+            debugAdbCommand.text = "adb shell dpm set-device-owner com.unoshield.mdm/.DeviceOwnerReceiver"
+            
+            val debugInfo = buildString {
+                append("Package: ${packageName}\n")
+                append("Component: com.unoshield.mdm/.DeviceOwnerReceiver\n")
+                append("Device Owner: $isDeviceOwner\n")
+                append("Device Admin: $isDeviceAdmin\n")
+                if (!isDeviceOwner) {
+                    append("\n⚠ To set Device Owner:\n")
+                    append("1. Remove all user accounts\n")
+                    append("2. Run the ADB command above\n")
+                    append("3. Or factory reset and scan QR code")
+                }
+            }
+            debugStatusInfo.text = debugInfo
+        } else {
+            debugSectionTitle.visibility = android.view.View.GONE
+            debugAdbCommand.visibility = android.view.View.GONE
+            debugStatusInfo.visibility = android.view.View.GONE
         }
     }
 }

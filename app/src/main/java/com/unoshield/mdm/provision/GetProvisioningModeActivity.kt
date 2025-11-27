@@ -41,7 +41,11 @@ class GetProvisioningModeActivity : Activity() {
         }
 
         Log.d(TAG, "Selected provisioning mode: $provisioningMode")
-
+        
+        // For FULLY_MANAGED_DEVICE mode, Android will automatically set the component that handles
+        // provisioning as Device Owner. DeviceOwnerReceiver now handles provisioning events,
+        // so it will be set as Device Owner.
+        
         // Return the provisioning mode to Android
         val resultIntent = Intent().apply {
             putExtra(DevicePolicyManager.EXTRA_PROVISIONING_MODE, provisioningMode)
