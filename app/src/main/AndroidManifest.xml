@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- This permission is dangerous and causes blocking by Play Protect in some countries.
      In fact, this permission is currently never used by Headwind MDM.
  -->
@@ -110,8 +112,23 @@
         <!-- Server Activity - Mock server interface for managing MDM policies -->
         <activity android:name=".ui.ServerActivity" android:exported="false" android:label="@string/server_manager" android:theme="@style/Theme.UnoShield" />
 
-        <!-- Block Apps Activity - Manage blocked apps -->
-        <activity android:name=".ui.BlockAppsActivity" android:exported="false" android:label="@string/block_apps" android:theme="@style/Theme.UnoShield" />
+        <!-- Restriction Policy Activity - Manage DPC restrictions -->
+        <activity android:name=".ui.RestrictionPolicyActivity" android:exported="false" android:label="@string/restriction_policy" android:theme="@style/Theme.UnoShield" />
+
+        <!-- Call Filter Policy Activity - Manage call filtering and blocking -->
+        <activity android:name=".ui.CallFilterPolicyActivity" android:exported="false" android:label="@string/call_filter_policy" android:theme="@style/Theme.UnoShield" />
+
+        <!-- Application Control Activity - System-level app control -->
+        <activity android:name=".ui.ApplicationControlActivity" android:exported="false" android:label="@string/application_control" android:theme="@style/Theme.UnoShield" />
+
+        <!-- App Control List Activity - Manage allowlist/blocklist -->
+        <activity android:name=".ui.AppControlListActivity" android:exported="false" android:label="@string/allow_block_application_list" android:theme="@style/Theme.UnoShield" />
+
+        <!-- Blacklist Activity - Manage blacklisted phone numbers -->
+        <activity android:name=".ui.BlacklistActivity" android:exported="false" android:label="@string/blacklist" android:theme="@style/Theme.UnoShield" />
+
+        <!-- Whitelist Activity - Manage whitelisted phone numbers -->
+        <activity android:name=".ui.WhitelistActivity" android:exported="false" android:label="@string/whitelist" android:theme="@style/Theme.UnoShield" />
 
         <!-- Enrollment Activity -->
         <activity android:name=".ui.EnrollmentActivity" android:exported="false" android:label="@string/enrollment_title" android:theme="@style/Theme.UnoShield" />
@@ -157,6 +174,13 @@
         <!-- Device Owner Receiver -->
         <receiver android:name=".DeviceOwnerReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN" android:exported="true">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+        </receiver>
+
+        <!-- Phone Call Receiver - Intercepts incoming calls for filtering -->
+        <receiver android:name=".call.PhoneCallReceiver" android:exported="true" android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
         </receiver>
 
     </application>

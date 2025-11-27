@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,10 +57,22 @@ class ServerActivity : AppCompatActivity() {
     private fun loadFeatures() {
         val features = listOf(
             MDMFeature(
-                id = "block_apps",
-                title = getString(R.string.block_apps),
-                description = getString(R.string.block_apps_description),
+                id = "call_filter_policy",
+                title = getString(R.string.call_filter_policy),
+                description = getString(R.string.call_filter_policy_description),
+                iconRes = android.R.drawable.ic_menu_call
+            ),
+            MDMFeature(
+                id = "application_control",
+                title = getString(R.string.application_control),
+                description = getString(R.string.application_control_description),
                 iconRes = android.R.drawable.ic_menu_manage
+            ),
+            MDMFeature(
+                id = "restriction_policy",
+                title = getString(R.string.restriction_policy),
+                description = getString(R.string.restriction_policy_description),
+                iconRes = android.R.drawable.ic_lock_lock
             )
             // More features will be added here in the future
         )
@@ -68,8 +81,16 @@ class ServerActivity : AppCompatActivity() {
     
     private fun handleFeatureClick(feature: MDMFeature) {
         when (feature.id) {
-            "block_apps" -> {
-                val intent = Intent(this, BlockAppsActivity::class.java)
+            "call_filter_policy" -> {
+                val intent = Intent(this, CallFilterPolicyActivity::class.java)
+                startActivity(intent)
+            }
+            "application_control" -> {
+                val intent = Intent(this, ApplicationControlActivity::class.java)
+                startActivity(intent)
+            }
+            "restriction_policy" -> {
+                val intent = Intent(this, RestrictionPolicyActivity::class.java)
                 startActivity(intent)
             }
             // Handle other features here

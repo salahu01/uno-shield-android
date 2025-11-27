@@ -222,12 +222,6 @@ class MainActivity : AppCompatActivity() {
                     continue
                 }
                 
-                // Skip BlockAppsActivity (it's accessed from Server Manager)
-                if (activityInfo.packageName == packageName && 
-                    activityInfo.name == BlockAppsActivity::class.java.name) {
-                    continue
-                }
-                
                 // Skip ServerActivity when it's not shown as a special app (it's shown as Server Manager)
                 if (activityInfo.packageName == packageName && 
                     activityInfo.name == ServerActivity::class.java.name) {

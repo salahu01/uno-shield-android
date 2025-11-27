@@ -6,7 +6,7 @@
     <string name="enrollment_failed">Enrollment Failed</string>
     <string name="device_status">Device Status</string>
     <string name="last_sync">Last Sync</string>
-    
+
     <!-- Main Activity Strings -->
     <string name="mdm_client">MDM Client</string>
     <string name="app_enable">App Enable</string>
@@ -18,15 +18,127 @@
     <string name="port">PORT</string>
     <string name="enable_notifications">Enable Notifications</string>
     <string name="device_serial_number">Device Serial Number</string>
-    
+
     <!-- Launcher Activity Strings -->
     <string name="no_apps_found">No apps found</string>
     <string name="app_icon">App icon</string>
     <string name="uno_manager">UNO Manager</string>
-    
+
     <!-- Server Activity Strings -->
     <string name="server_manager">Server Manager</string>
     <string name="block_apps">Block Apps</string>
     <string name="block_apps_description">Manage which apps are blocked from the launcher</string>
     <string name="block">Block</string>
+    <string name="restriction_policy">Restriction Policy</string>
+    <string name="restriction_policy_description">Configure device restrictions and policies</string>
+    <string name="call_filter_policy">Call Filter Policy</string>
+    <string name="call_filter_policy_description">Manage call filtering and blocking rules</string>
+    <string name="call_filter_mode">Call Filter Mode</string>
+    <string name="whitelist">Whitelist</string>
+    <string name="blacklist">Blacklist</string>
+    <string name="allow_contacts">Allow Contacts</string>
+    <string name="block_non_numeric_calls">Block Non-Numeric Calls</string>
+    <string name="send_call_details_to_server">Send call details to server (call filter events)</string>
+    <string name="add_to_blacklist">Add to Blacklist</string>
+    <string name="add_to_whitelist">Add to Whitelist</string>
+    <string name="add">Add</string>
+    <string name="application_control">Application Control</string>
+    <string name="application_control_description">Control app access using allowlist/blocklist</string>
+    <string name="control_mode">Control Mode</string>
+    <string name="disabled">Disabled</string>
+    <string name="allowlist">Allowlist</string>
+    <string name="blocklist">Blocklist</string>
+    <string name="allow_block_application_list">Allow / Block Application List</string>
+    <string name="additional_settings">Additional Settings</string>
+    <string name="uno_emm_app_settings">UNO EMM App Settings</string>
+    <string name="device_administrator_settings">Device Administrator Settings</string>
+    
+    <!-- UNO EMM App Settings -->
+    <string name="disable_wifi_settings">Disable WiFi Settings</string>
+    <string name="disable_wifi_settings_description">Prevent access to WiFi settings</string>
+    <string name="disable_gps_setting">Disable GPS Setting</string>
+    <string name="disable_gps_setting_description">Prevent access to GPS/location settings</string>
+    <string name="disallow_incoming_call">Disallow Incoming call</string>
+    <string name="disallow_incoming_call_description">Prevent receiving incoming phone calls</string>
+    
+    <!-- Device Administrator Settings -->
+    <string name="disable_mount_physical_data">Disable Mount Physical Data Setting</string>
+    <string name="disable_mount_physical_data_description">Prevent mounting physical storage</string>
+    <string name="show_lock_screen_message">Show Lock Screen Message</string>
+    <string name="show_lock_screen_message_description">Display custom message on lock screen</string>
+    <string name="disable_date_time_setting">Disable Date-Time Setting</string>
+    <string name="disable_date_time_setting_description">Prevent changing date and time settings</string>
+    <string name="location_mode">Location Mode</string>
+    <string name="location_mode_high_accuracy">High Accuracy</string>
+    <string name="location_mode_device_only">Device Only</string>
+    <string name="location_mode_battery_saving">Battery Saving</string>
+    <string name="location_mode_off">Off</string>
+    <string name="ensure_verify_apps_setting">Ensure Verify Apps Setting</string>
+    <string name="ensure_verify_apps_setting_description">Ensure app verification is enabled</string>
+    <string name="disable_airplane_mode_setting">Disable Airplane Mode Setting</string>
+    <string name="disable_airplane_mode_setting_description">Prevent enabling airplane mode</string>
+    <string name="disable_usb_data_access">Disable USB Data Access</string>
+    <string name="disable_usb_data_access_description">Prevent USB data access</string>
+
+    <!-- Policy Restriction Strings -->
+    <string name="disallow_camera">Disallow Camera</string>
+    <string name="disallow_camera_description">Prevent users from using the device camera</string>
+    <string name="disallow_install_apps">Disallow Install Apps</string>
+    <string name="disallow_install_apps_description">Prevent users from installing new applications</string>
+    <string name="disallow_uninstall_apps">Disallow Uninstall Apps</string>
+    <string name="disallow_uninstall_apps_description">Prevent users from uninstalling applications</string>
+    <string name="disallow_screen_capture">Disallow Screen Capture</string>
+    <string name="disallow_screen_capture_description">Prevent users from taking screenshots or screen recordings</string>
+    <string name="disallow_factory_reset">Disallow Factory Reset</string>
+    <string name="disallow_factory_reset_description">Prevent users from performing factory reset</string>
+    <string name="disallow_usb_file_transfer">Disallow USB File Transfer</string>
+    <string name="disallow_usb_file_transfer_description">Prevent file transfer via USB connection</string>
+    <string name="disallow_config_bluetooth">Disallow Bluetooth Configuration</string>
+    <string name="disallow_config_bluetooth_description">Prevent users from configuring Bluetooth settings</string>
+    <string name="disallow_config_wifi">Disallow WiFi Configuration</string>
+    <string name="disallow_config_wifi_description">Prevent users from configuring WiFi settings</string>
+    <string name="disallow_outgoing_calls">Disallow Outgoing Calls</string>
+    <string name="disallow_outgoing_calls_description">Prevent users from making outgoing phone calls</string>
+    <string name="disallow_sms">Disallow SMS</string>
+    <string name="disallow_sms_description">Prevent users from sending SMS messages</string>
+    <string name="disallow_microphone">Disable Microphone</string>
+    <string name="disallow_microphone_description">Prevent users from using the device microphone</string>
+    <string name="disallow_cross_profile_copy_paste">Disable Cross Profile Copy Paste</string>
+    <string name="disallow_cross_profile_copy_paste_description">Prevent copying and pasting between profiles</string>
+    <string name="disallow_data_roaming">Disallow Data Roaming</string>
+    <string name="disallow_data_roaming_description">Prevent data roaming services</string>
+    <string name="disallow_adjust_volume">Disable Volume Control</string>
+    <string name="disallow_adjust_volume_description">Prevent users from adjusting device volume</string>
+    <string name="disallow_status_bar">Disable Status Bar</string>
+    <string name="disallow_status_bar_description">Prevent access to the status bar</string>
+    <string name="disallow_add_user">Disallow Adding Users</string>
+    <string name="disallow_add_user_description">Prevent users from adding new user accounts</string>
+    <string name="disallow_user_icon_change">Disallow User Icon Change</string>
+    <string name="disallow_user_icon_change_description">Prevent users from changing their profile icon</string>
+    <string name="disallow_nfc_beam">Disable Using NFC Beam</string>
+    <string name="disallow_nfc_beam_description">Prevent using NFC beam functionality</string>
+    <string name="disallow_usb_tethering">Disallow USB Tethering and Portable Hotspots</string>
+    <string name="disallow_usb_tethering_description">Prevent USB tethering and portable hotspot usage</string>
+    <string name="disallow_debugging_features">Disable Developer Options</string>
+    <string name="disallow_debugging_features_description">Prevent access to developer options</string>
+    <string name="disallow_bluetooth">Disable Bluetooth</string>
+    <string name="disallow_bluetooth_description">Completely disable Bluetooth functionality</string>
+    <string name="disallow_keyguard">Disallow Keyguard</string>
+    <string name="disallow_keyguard_description">Prevent lock screen/keyguard functionality</string>
+    <string name="disallow_network_reset">Disallow Reset Network Settings</string>
+    <string name="disallow_network_reset_description">Prevent resetting network settings</string>
+    <string name="disallow_config_mobile_networks">Disallow Mobile Networks Configuration</string>
+    <string name="disallow_config_mobile_networks_description">Prevent configuring mobile network settings</string>
+    <string name="disallow_cell_broadcast">Disable Cell Broadcast</string>
+    <string name="disallow_cell_broadcast_description">Disable cell broadcast messages</string>
+    <string name="disallow_modify_accounts">Disallow Adding and Removing of Accounts</string>
+    <string name="disallow_modify_accounts_description">Prevent adding or removing accounts</string>
+    <string name="disallow_remove_user">Disallow Removing Users</string>
+    <string name="disallow_remove_user_description">Prevent removing user accounts</string>
+    <string name="disallow_set_wallpaper">Disallow Wallpaper Change</string>
+    <string name="disallow_set_wallpaper_description">Prevent users from changing device wallpaper</string>
+    <string name="disallow_system_error_dialogs">Disallow Multi Window</string>
+    <string name="disallow_system_error_dialogs_description">Prevent multi-window mode</string>
+    <string name="disallow_bluetooth_sharing">Disable Bluetooth Contact Sharing</string>
+    <string name="disallow_bluetooth_sharing_description">Prevent sharing contacts via Bluetooth</string>
 </resources>
